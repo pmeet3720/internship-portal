@@ -1,0 +1,22 @@
+package com.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public class ForgotPasswordDTO {
+	
+	@NotBlank(message = "Email is required")
+	@Email(message = "Ivalid email format")
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
+
+}
