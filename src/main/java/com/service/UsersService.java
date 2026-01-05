@@ -72,6 +72,8 @@ public class UsersService {
 		user.setStatus(true);
 		user.setCreatedAt(LocalDate.now());
 		
+		String userPassword = user.getPassword();
+		
 		// encode password
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
@@ -79,6 +81,9 @@ public class UsersService {
 		UsersEntity savedUser = usersRepository.save(user);
 
 		// send mail to user with password to login on his registered email
+		mailService.sendUserMailWithPassword(user, userPassword);
+		
+		
 		return savedUser;
 	}
 	

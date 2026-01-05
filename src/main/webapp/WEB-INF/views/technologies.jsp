@@ -39,7 +39,7 @@
 </style>
 </head>
 
-<body class="background">
+<body class="background-effect">
 
 	<div class="container mt-5">
 
@@ -103,15 +103,15 @@
 								<td class="text-center"><span class="badge bg-success">
 										${tech.active == true ? "ACTIVE" : "INACTIVE"} </span></td>
 
-								<td class="text-center"><a
+								<td class="text-center"><%-- <a
 									href="technology/view?id=${tech.getTechnologyId()}"
 									class="btn btn-info btn-sm action-btn mx-2"> <i
 										class="fa fa-eye"></i> View
-								</a> <a href="technology/edit?id=${tech.getTechnologyId()}"
-									class="btn btn-warning btn-sm action-btn"> <i
+								</a> --%> <a href="technology/edit?id=${tech.getTechnologyId()}"
+									class="btn btn-warning btn-sm action-btn mx-2"> <i
 										class="fa fa-edit"></i> Edit
 								</a> <a href="technology/delete?id=${tech.getTechnologyId()}"
-									class="btn btn-danger btn-sm action-btn mt-2"
+									class="btn btn-danger btn-sm action-btn"
 									onclick="return confirm('Are you sure you want to delete this technology?');">
 										<i class="fa fa-trash"></i> Delete
 								</a></td>
@@ -140,7 +140,6 @@
 
 				<!-- Body -->
 				<div class="modal-body">
-
 					<form:form
 						action="${pageContext.request.contextPath}/technology/add"
 						method="post" modelAttribute="technology"
@@ -148,41 +147,34 @@
 
 						<!-- Technology Name -->
 						<div class="mb-3">
-							<label class="form-label"> Technology Name <span
-								class="text-danger">*</span>
-							</label>
-							<form:input path="technologyName" class="form-control"
-								placeholder="Enter technology name" />
+							<label class="form-label">Technology Name <span
+								class="text-danger">*</span></label>
+							<form:input path="technologyName" class="form-control" />
 							<form:errors path="technologyName" cssClass="text-danger small" />
 						</div>
 
 						<!-- Description -->
 						<div class="mb-3">
-							<label class="form-label"> Description <span
-								class="text-danger">*</span>
-							</label>
-							<form:textarea path="description" class="form-control" rows="3"
-								placeholder="Enter short description" />
+							<label class="form-label">Description <span
+								class="text-danger">*</span></label>
+							<form:textarea path="description" rows="3" class="form-control" />
 							<form:errors path="description" cssClass="text-danger small" />
 						</div>
 
-						<!-- Logo Upload -->
+						<!-- Logo Upload (ONLY ADD) -->
 						<div class="mb-3">
-							<label class="form-label">Technology Logo</label> <input
+							<label class="form-label">Technology Logo </label> <input
 								type="file" name="logoFile" class="form-control"
-								accept="image/*" /> <small class="text-muted"> JPG,
-								PNG, SVG (optional) </small>
+								accept="image/*" />
 						</div>
 
 						<!-- Status -->
 						<div class="mb-3">
 							<label class="form-label">Status</label>
 							<form:select path="active" class="form-select">
-								<form:option value="">-- Select Status --</form:option>
 								<form:option value="true">Active</form:option>
 								<form:option value="false">Inactive</form:option>
 							</form:select>
-							<form:errors path="active" cssClass="text-danger small" />
 						</div>
 
 						<!-- Submit -->
@@ -193,11 +185,122 @@
 						</div>
 
 					</form:form>
-
 				</div>
+
 			</div>
 		</div>
 	</div>
+
+	<!-- EDIT TECHNOLOGY MODAL -->
+	<div class="modal fade" id="editTechnologyModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+			<div class="modal-content">
+
+				<!-- Header -->
+				<div class="modal-header">
+					<h5 class="modal-title">
+						<i class="fa fa-edit me-2"></i> Edit Technology
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+
+				<!-- Body -->
+				<div class="modal-body">
+					<form:form
+						action="${pageContext.request.contextPath}/technology/update"
+						method="post" modelAttribute="technology" enctype="multipart/form-data">
+
+						<!-- Hidden ID -->
+						<c:if test="${editMode}">
+							<form:hidden path="technologyId" />
+						</c:if>
+
+						<!-- Technology Name -->
+						<div class="mb-3">
+							<label class="form-label">Technology Name</label>
+							<form:input path="technologyName" class="form-control" />
+							<form:errors path="technologyName" cssClass="text-danger small" />
+						</div>
+
+						<!-- Description -->
+						<div class="mb-3">
+							<label class="form-label">Description</label>
+							<form:textarea path="description" rows="3" class="form-control" />
+							<form:errors path="description" cssClass="text-danger small" />
+						</div>
+
+						<!-- Update Logo (Optional) -->
+						<div class="mb-3">
+							<label class="form-label">Change Logo (optional)</label> <input
+								type="file" name="logoFile" class="form-control"
+								accept="image/*"> <small class="text-muted">
+								Upload only if you want to replace existing logo </small>
+						</div>
+
+						<!-- Status -->
+						<div class="mb-3">
+							<label class="form-label">Status</label>
+							<form:select path="active" class="form-select">
+								<form:option value="true">Active</form:option>
+								<form:option value="false">Inactive</form:option>
+							</form:select>
+						</div>
+
+						<!-- Submit -->
+						<div class="d-grid mt-4">
+							<button type="submit" class="btn btn-warning">
+								<i class="fa fa-save me-2"></i> Update Technology
+							</button>
+						</div>
+
+					</form:form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<c:if test="${editMode}">
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				new bootstrap.Modal(document
+						.getElementById("editTechnologyModal")).show();
+			});
+		</script>
+	</c:if>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+
+			const editModalEl = document.getElementById('editTechnologyModal');
+
+			if (editModalEl) {
+
+				editModalEl.addEventListener('hidden.bs.modal', function() {
+
+					// Reset URL to base page (no id, no edit)
+					const baseUrl = window.location.origin
+							+ '${pageContext.request.contextPath}/technologies';
+
+					window.history.replaceState({}, document.title, baseUrl);
+				});
+			}
+		});
+		
+		document.addEventListener("DOMContentLoaded", function () {
+
+		    const editModal = document.getElementById('editTechnologyModal');
+		    const editForm = editModal?.querySelector('form');
+
+		    editModal?.addEventListener('hidden.bs.modal', function () {
+		        editForm?.reset();
+		    });
+		});
+	</script>
+
 
 
 

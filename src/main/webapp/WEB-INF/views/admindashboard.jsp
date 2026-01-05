@@ -193,8 +193,8 @@
 						<p class="dashboard-desc">Add, view, and manage platform
 							internships securely.</p>
 
-						<a href="#" class="btn btn-primary dashboard-btn"> <i
-							class="fa fa-user-plus me-2"></i> Add New Internship
+						<a href="internships" class="btn btn-primary dashboard-btn"> <i
+							class="fa fa-user-plus me-2"></i> Manage Internship
 						</a>
 					</div>
 				</div>

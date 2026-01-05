@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.entity.TechnologyEntity;
 import com.service.TechnologiesService;
@@ -53,6 +54,41 @@ public class TechnologiesController {
 		}
 		model.addAttribute("deleteError","Technology failed to delete, try again.");
 		return "technologies";
+	}
+	
+	@GetMapping("/technology/edit")
+	public String editPage(@RequestParam Integer id, Model model) {
+		if(id != null) {
+			TechnologyEntity technologyById = technologiesService.findTechnologyById(id);
+			model.addAttribute("technology", technologyById);
+			model.addAttribute("editMode",true);
+			model.addAttribute("technologiesList",technologiesService.getAllTechnologies());
+			return "technologies";
+		}
+		return "technologies";
+	}
+	
+	@PostMapping("/technology/update")
+	public String updateTechnology(@ModelAttribute("technology") @Validated TechnologyEntity tech, BindingResult result, Model model, MultipartFile logoFile) {
+		if(result.hasErrors()) {
+			System.out.println(result.getObjectName());
+	        model.addAttribute("editMode", true);
+	        model.addAttribute("technologiesList", technologiesService.getAllTechnologies());
+			return "technologies";
+		}
+		
+		TechnologyEntity existingTechnology = technologiesService.findTechnologyById(tech.getTechnologyId());
+		
+		if(logoFile == null	|| logoFile.isEmpty()) {
+			tech.setLogoUrl(existingTechnology.getLogoUrl());
+		}else {
+			technologiesService.uploadLogoFile(tech, logoFile);
+		}
+		
+		TechnologyEntity editedTechnology = technologiesService.editTechnology(tech);
+		
+		return "redirect:/technologies";
+		
 	}
 
 }

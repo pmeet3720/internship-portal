@@ -75,4 +75,32 @@ public class MailService {
 		
 	}
 
+	public void sendUserMailWithPassword(UsersEntity user, String userPassword) {
+		MimeMessage message = javaMailSender.createMimeMessage();
+
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+			helper.setTo(user.getEmail());
+			helper.setSubject("Welcome to Our Platform!");
+
+			String path = "src/main/resources/templates/welcomemailbyadmin.html";
+			Path p = Paths.get(path);
+
+			String htmlMsg = new String(Files.readAllBytes(p));
+
+			htmlMsg = htmlMsg.replace("${firstName}", user.getFirstName());
+			htmlMsg = htmlMsg.replace("${password}", userPassword);
+
+			helper.setText(htmlMsg, true);
+
+			javaMailSender.send(message);
+
+		} catch (MessagingException | IOException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+
 }

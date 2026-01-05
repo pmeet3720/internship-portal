@@ -116,7 +116,7 @@ public class UsersController {
 			model.addAttribute("successMsg","User added successfuly!");
 		}
 
-		return "admindashboard";
+		return "redirect:/admindashboard";
 	}
 
 }

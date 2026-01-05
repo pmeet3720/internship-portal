@@ -15,8 +15,9 @@ body {
   font-style: normal;
   padding: 0;
   margin: 0;
-  height: 100%;
+  height: auto;
   width: 100%;
+  overflow-y:auto;
 }
 a:focus,
 .button:focus,
@@ -47,10 +48,33 @@ a.primary {
   color: #002244 !important;
 }
 
+.background-effect {
+  min-height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+
+  /* Dark overlay + image */
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 34, 68, 0.8),
+      rgba(0, 34, 68, 0.8)
+    ),
+    url('../assets/city-skyline.png');
+
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  /* Smooth scrolling look */
+  background-attachment: fixed;
+}
+
+
 .background {
   width: 100vw;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
   background-image: linear-gradient(
       to right,
       rgba(0, 34, 68, 0.8),
@@ -58,7 +82,7 @@ a.primary {
     ),
     url('../assets/city-skyline.png');
   background-position: center;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat; */
   background-size: cover;
 }
 .main_div {
@@ -363,9 +387,19 @@ label.large-label {
   border-radius: 5px;
   color: white;
   padding: 5px 10px;
-  display: inline;
+  display: inline-block;
   font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
 }
+
+.myBtn-light:hover {
+  background-color: #e34410;      /* slightly darker shade */
+  transform: translateY(-2px);    /* subtle lift */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+
 
 /* Prevent layout shift when errors appear */
 .error-box {

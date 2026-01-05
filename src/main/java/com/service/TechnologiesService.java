@@ -27,9 +27,18 @@ public class TechnologiesService {
 		return technologiesRepository.findAll();
 		
 	}
+	
+	
 
 	public TechnologyEntity addNewTechnology(TechnologyEntity technology, MultipartFile logoFile) {
 		
+		uploadLogoFile(technology, logoFile);
+		
+		return technologiesRepository.save(technology);
+		
+	}
+
+	public void uploadLogoFile(TechnologyEntity technology, MultipartFile logoFile) {
 		Map uploadResult;
 		try {
 			uploadResult = cloudinary.uploader().upload(logoFile.getBytes(), ObjectUtils.asMap("transformation", new Transformation<>().width(200).height(200).crop("fill")));
@@ -39,9 +48,9 @@ public class TechnologiesService {
 			e.printStackTrace();
 		}
 		
-		return technologiesRepository.save(technology);
-		
 	}
+
+
 
 	public TechnologyEntity findTechnologyById(Integer id) {
 		return technologiesRepository.findById(id).get();
@@ -49,6 +58,12 @@ public class TechnologiesService {
 
 	public void deleteTechnology(TechnologyEntity technology) {
 		technologiesRepository.delete(technology);
+	}
+
+	public TechnologyEntity editTechnology(TechnologyEntity tech) {
+		
+		return technologiesRepository.save(tech);
+		
 	}
 
 }

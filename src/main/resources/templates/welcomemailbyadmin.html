@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Welcome to HotDevInternships</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f4f6f8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .email-container {
+        max-width: 600px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .header {
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: #ffffff;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+    }
+
+    .header span {
+        font-weight: 300;
+    }
+
+    .content {
+        padding: 30px;
+        color: #333333;
+        line-height: 1.6;
+    }
+
+    .content h2 {
+        color: #007bff;
+        margin-top: 0;
+    }
+
+    .features {
+        margin: 20px 0;
+        padding: 0;
+    }
+
+    .features li {
+        list-style: none;
+        padding: 8px 0;
+        font-size: 15px;
+    }
+
+    .features li::before {
+        content: "✔ ";
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .cta {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    .cta a {
+        background-color: #007bff;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .cta a:hover {
+        background-color: #0056b3;
+    }
+
+    .footer {
+        background-color: #f1f1f1;
+        text-align: center;
+        padding: 15px;
+        font-size: 12px;
+        color: #666666;
+    }
+
+    .footer a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="email-container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>hotdevinternships<span>.com</span></h1>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+        <h2>Welcome, ${firstName} 👋</h2>
+
+        <p>
+            We’re excited to have you onboard at <strong>HotDevInternships</strong>!
+            Your account has been successfully created and you’re now part of a growing
+            community of developers and learners.
+        </p>
+        
+        <p>
+        	Please the given password for login.<br>
+        	Password: ${password}
+        </p>
+
+        <p>
+            With HotDevInternships, you can:
+        </p>
+
+        <ul class="features">
+            <li>Discover top internships in tech & development</li>
+            <li>Apply to real-world projects and companies</li>
+            <li>Build your profile and skills</li>
+            <li>Get noticed by recruiters</li>
+        </ul>
+
+        <p>
+            Complete your profile to get better recommendations and improve your visibility.
+        </p>
+
+        <p>
+            If you have any questions or need help, feel free to reach out to us.
+            We’re always here to support you!
+        </p>
+
+        <p>
+            Happy learning & coding 🚀 <br>
+            <strong>Team HotDevInternships</strong>
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2025 HotDevInternships
+    </div>
+
+</div>
+
+</body>
+</html>
