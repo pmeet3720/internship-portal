@@ -3,21 +3,26 @@ package com.service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.entity.PasswordResetOtpEntity;
+import com.repository.PasswordResetOtpRepository;
 
 @Service
 public class OtpService {
 	
-	private final Map<String, Integer> otpStore = new ConcurrentHashMap<>();
+	@Autowired
+	PasswordResetOtpRepository passwordResetOtpRepository;
 
-	public void storeOtp(String email, int otp) {
+	public void saveOtp(PasswordResetOtpEntity pwdOtpReset) {
+		passwordResetOtpRepository.save(pwdOtpReset);
+	}
+
+	public PasswordResetOtpEntity getPwdOtpResetEntityByEmail(String email) {
 		
-		otpStore.put(email, otp);
+		return passwordResetOtpRepository.findByEmail(email);
+		
 	}
-	
-	public String getOtp(String email) {
-		return otpStore.get(email).toString();
-	}
-	
 
 }

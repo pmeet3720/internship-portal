@@ -48,7 +48,7 @@ public class MailService {
 
 	}
 
-	public void sendOtp(UsersEntity user, int otp) {
+	public void sendOtp(UsersEntity user, String otp) {
 		MimeMessage message = javaMailSender.createMimeMessage();
 
 		try {

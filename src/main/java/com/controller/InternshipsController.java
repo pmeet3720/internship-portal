@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +75,21 @@ public class InternshipsController {
 		}
 		ra.addFlashAttribute("viewMode",false);
 		return "redirect:/internships";
+	}
+	
+	@PostMapping("/internship/update")
+	public String updateInternship(@ModelAttribute @Validated InternshipsEntity internship, BindingResult result, RedirectAttributes ra) {
+		if(result.hasErrors()) {
+			System.out.println("field errors: "+result.getAllErrors());
+			ra.addFlashAttribute("editMode", true);
+			return "redirect:/internships";
+		}
+		
+		internship.setPostedAt(LocalDate.now());
+		internshipsService.updateInternship(internship);
+		
+		return "redirect:/internships";
+		
 	}
 
 }

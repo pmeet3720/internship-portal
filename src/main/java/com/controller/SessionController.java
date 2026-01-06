@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.cloudinary.Cloudinary;
 import com.dto.ChangePasswordDTO;
 import com.dto.ForgotPasswordDTO;
 import com.dto.LoginDTO;
+import com.entity.PasswordResetOtpEntity;
 import com.entity.UsersEntity;
 import com.enums.Roles;
 import com.repository.UsersRepository;
@@ -115,9 +118,12 @@ public class SessionController {
 
 		UsersEntity user = findUser.get();
 
-		int otp = (int) (Math.random() * 9999) + 1000;
-
-		otpService.storeOtp(dto.getEmail(), otp);
+		String otp = String.valueOf((int) (Math.random() * 9999) + 1000);
+		String email = dto.getEmail();
+		PasswordResetOtpEntity pwdOtpReset = new PasswordResetOtpEntity();
+		pwdOtpReset.setEmail(email);
+		pwdOtpReset.setOtp(otp);
+		otpService.saveOtp(pwdOtpReset);
 
 		mailService.sendOtp(user, otp);
 
@@ -132,13 +138,19 @@ public class SessionController {
 
 	@PostMapping("change-password")
 	public String updatePassword(@ModelAttribute("changePassword") @Validated ChangePasswordDTO dto,
-			BindingResult result, Model model) {
+			BindingResult result, RedirectAttributes ra) {
 
 		if (result.hasErrors()) {
-			return "changepassword";
+			return "redirect:/changepassword";
 		}
-
-		return "";
+		
+		// match otp and email, if matched: password changed else error msg :- wrong otp entered, try again.
+		PasswordResetOtpEntity pwdOtpResetEntityByEmail = otpService.getPwdOtpResetEntityByEmail(dto.getEmail());
+		if(pwdOtpResetEntityByEmail.getOtp().equals(dto.getOtp())) {
+			usersService.saveNewPassword(dto.getNewPassword(), dto.getEmail());
+			return "redirect:/login";
+		}
+		return "redirect:/changepassword";
 	}
 	
 	@GetMapping("/logout")

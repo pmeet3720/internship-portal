@@ -86,6 +86,20 @@ public class UsersService {
 		
 		return savedUser;
 	}
+
+	public UsersEntity saveNewPassword(String newPassword, String email) {
+		
+		UsersEntity userbyEmail = usersRepository.findByEmail(email).get();
+		if(userbyEmail != null) {
+			String encodedPassword = passwordEncoder.encode(newPassword);
+			userbyEmail.setPassword(encodedPassword);
+			UsersEntity newPasswordSavedUser = usersRepository.save(userbyEmail);
+			return newPasswordSavedUser;
+		}
+		
+		return null;
+		
+	}
 	
 	
 

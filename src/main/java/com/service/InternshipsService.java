@@ -39,4 +39,9 @@ public class InternshipsService {
 		
 	}
 
+	public InternshipsEntity updateInternship(InternshipsEntity internship) {
+		return internshipsRepository.save(internship);
+		
+	}
+
 }
