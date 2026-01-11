@@ -2,6 +2,7 @@ package com.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class UsersService {
 		try {
 			uploadResult = cloudinary.uploader().upload(profilePic.getBytes(), ObjectUtils.asMap("transformation", new Transformation<>().width(200).height(200).crop("fill")));
 			String profilePicUrl = uploadResult.get("secure_url").toString();
-			user.setProfilePic(profilePicUrl);
+			user.setProfilePicUrl(profilePicUrl);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,6 +99,24 @@ public class UsersService {
 		}
 		
 		return null;
+		
+	}
+
+	public List<UsersEntity> getAllUsers() {
+		
+		return usersRepository.findAll();
+		
+	}
+
+	public UsersEntity findUserById(Integer id) {
+		
+		return usersRepository.findById(id).get();
+		
+	}
+
+	public void deleteUser(UsersEntity userById) {
+		
+		usersRepository.delete(userById);
 		
 	}
 	

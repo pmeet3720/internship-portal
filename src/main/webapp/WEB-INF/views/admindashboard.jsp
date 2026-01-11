@@ -151,10 +151,9 @@
 						<p class="dashboard-desc">Add, view, and manage platform users
 							securely.</p>
 
-						<button type="button" class="btn btn-primary dashboard-btn"
-							data-bs-toggle="modal" data-bs-target="#addUserModal">
-							<i class="fa fa-user-plus me-2"></i> Add New User
-						</button>
+						<a href="users" class="btn btn-primary dashboard-btn">
+							<i class="fa fa-user-plus me-2"></i> Manage Users
+						</a>
 
 					</div>
 				</div>
@@ -200,144 +199,6 @@
 				</div>
 			</div>
 
-		</div>
-	</div>
-
-	<!-- ADD USER MODAL -->
-	<div class="modal fade" id="addUserModal" tabindex="-1"
-		aria-labelledby="addUserModalLabel" aria-hidden="true">
-		<div
-			class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h5 class="modal-title" id="addUserModalLabel">
-						<i class="fa fa-user-plus me-2"></i> Add New User
-					</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-				</div>
-
-				<!-- Modal Body -->
-				<div class="modal-body">
-
-					<form:form
-						action="${pageContext.request.contextPath}/register/new2"
-						method="post" modelAttribute="user">
-
-						<!-- Email Exists Error -->
-						<c:if test="${not empty emailError}">
-							<div class="alert alert-danger py-2 mb-3">${emailError}</div>
-						</c:if>
-
-						<div class="row">
-
-							<!-- First Name -->
-							<div class="col-md-6 mb-2">
-								<form:input path="firstName" class="form-control"
-									placeholder="First Name" />
-								<form:errors path="firstName" cssClass="text-danger small" />
-							</div>
-
-							<!-- Last Name -->
-							<div class="col-md-6 mb-2">
-								<form:input path="lastName" class="form-control"
-									placeholder="Last Name" />
-								<form:errors path="lastName" cssClass="text-danger small" />
-							</div>
-
-							<!-- Gender -->
-							<div class="col-md-12 mb-2">
-								<label class="form-label d-block">Gender</label>
-
-								<div class="form-check form-check-inline">
-									<form:radiobutton path="gender" value="Male"
-										class="form-check-input" />
-									<label class="form-check-label">Male</label>
-								</div>
-
-								<div class="form-check form-check-inline">
-									<form:radiobutton path="gender" value="Female"
-										class="form-check-input" />
-									<label class="form-check-label">Female</label>
-								</div>
-
-								<div class="form-check form-check-inline">
-									<form:radiobutton path="gender" value="Other"
-										class="form-check-input" />
-									<label class="form-check-label">Other</label>
-								</div>
-
-								<form:errors path="gender" cssClass="text-danger small" />
-							</div>
-
-							<!-- Email -->
-							<div class="col-md-6 mb-2">
-								<form:input path="email" type="email" class="form-control"
-									placeholder="Email" />
-								<form:errors path="email" cssClass="text-danger small" />
-							</div>
-
-							<!-- Password -->
-							<div class="col-md-6 mb-2">
-								<form:password path="password" class="form-control"
-									placeholder="Password" />
-								<form:errors path="password" cssClass="text-danger small" />
-							</div>
-
-							<!-- Contact -->
-							<div class="col-md-6 mb-2">
-								<form:input path="contactNo" class="form-control"
-									placeholder="Contact Number" />
-								<form:errors path="contactNo" cssClass="text-danger small" />
-							</div>
-
-							<!-- Role Dropdown -->
-							<div class="col-md-6 mb-2">
-								<form:select path="roles" class="form-select">
-									<form:option value="">-- Select Role --</form:option>
-
-									<c:forEach items="${rolesList}" var="role">
-										<form:option value="${role}">${role}</form:option>
-									</c:forEach>
-
-								</form:select>
-
-								<form:errors path="roles" cssClass="text-danger small" />
-							</div>
-
-
-							<!-- City -->
-							<div class="col-md-4 mb-2">
-								<form:input path="city" class="form-control" placeholder="City" />
-							</div>
-
-							<!-- State -->
-							<div class="col-md-4 mb-2">
-								<form:input path="state" class="form-control"
-									placeholder="State" />
-							</div>
-
-							<!-- Country -->
-							<div class="col-md-4 mb-2">
-								<form:input path="country" class="form-control"
-									placeholder="Country" />
-							</div>
-
-						</div>
-
-						<!-- Submit -->
-						<div class="d-grid">
-							<button type="submit" class="btn btn-success">
-								<i class="fa fa-save me-2"></i> Register User
-							</button>
-						</div>
-
-					</form:form>
-
-				</div>
-
-			</div>
 		</div>
 	</div>
 

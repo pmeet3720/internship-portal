@@ -1,0 +1,39 @@
+users -- user details 
+internship -- internship details 
+technology  -- technology that can be use in internship 
+user_detail -- user extra information - user -> intern 
+internship_enrollment  -- store who is doing which internship 
+						 1 user can be join more than 1 internship
+						but at time he/she can enroll in single 
+						active internship 
+internship_session - to store all the session information 
+					that are taken in internship 
+
+internship_session_attendance -> 
+				store the attendance of session
+				who is present and who is absent
+
+users         1 - 1 rel^        user_detail
+
+
+internship        M - M rel^           technology
+
+				
+users         1 - M rel^     internship_enrollment       M - 1 rel^       internship
+
+
+internship     1 - M rel^             internship_session     1 - M rel^         internship_session_attendence      M - 1 rel^        users
+                               
+                  
+users             M - M rel^            internship_session
+
+
+
+
+payments
+refunds
+notifications
+activity_logs
+permissions
+role_permissions
+              

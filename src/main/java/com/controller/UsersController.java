@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cloudinary.Cloudinary;
 import com.entity.UsersEntity;
@@ -93,30 +96,59 @@ public class UsersController {
 		}
 	}
 	
-	@PostMapping("/register/new2")
-	public String registerUserByAdmin(@ModelAttribute("user") @Validated UsersEntity user, BindingResult result, Model model) {
-		if (result.hasErrors()) {
-
-			return "admindashboard";
-		}
-
-		Optional<UsersEntity> userEmail = usersService.getUserEmail(user.getEmail());
-
-		if (userEmail.isPresent()) {
-			model.addAttribute("emailError", "Email already registered, try to login or register with other email.");
-			model.addAttribute("rolesList", Roles.values());
-			model.addAttribute("user", new UsersEntity());
-			return "admindashboard";
-		}
-
-		UsersEntity savedUser = usersService.addNewUserByAdmin(user);
-
-		if (savedUser != null) {
-			model.addAttribute("user", savedUser);
-			model.addAttribute("successMsg","User added successfuly!");
-		}
-
-		return "redirect:/admindashboard";
+	@GetMapping("/users")
+	public String getAllUsersPage(Model model) {
+		List<UsersEntity> allUsers = usersService.getAllUsers();
+		model.addAttribute("user", new UsersEntity());
+		model.addAttribute("rolesList", Roles.values());
+		model.addAttribute("usersList",allUsers);
+		return "users";
 	}
+	
+	@PostMapping("/register/new2")
+	public String registerUserByAdmin(
+	        @ModelAttribute("user") @Validated UsersEntity user,
+	        BindingResult result,
+	        RedirectAttributes ra) {
+
+	    if (result.hasErrors()) {
+	        ra.addFlashAttribute("org.springframework.validation.BindingResult.user", result);
+	        ra.addFlashAttribute("user", user);
+	        ra.addFlashAttribute("openAddUserModal", true);
+	        return "redirect:/users";
+	    }
+
+	    Optional<UsersEntity> userEmail = usersService.getUserEmail(user.getEmail());
+
+	    if (userEmail.isPresent()) {
+	        ra.addFlashAttribute("user", user);
+	        ra.addFlashAttribute("emailError",
+	                "Email already registered, try another email.");
+	        ra.addFlashAttribute("openAddUserModal", true);
+	        return "redirect:/users";
+	    }
+
+	    UsersEntity savedUser = usersService.addNewUserByAdmin(user);
+
+	    if (savedUser != null) {
+	        ra.addFlashAttribute("successMsg", "User added successfully!");
+	    }
+
+	    return "redirect:/users";
+	}
+	
+	@GetMapping("/user/delete")
+	public String deleteUser(@RequestParam Integer id) {
+		if(id != null) {
+			UsersEntity userById = usersService.findUserById(id);
+			usersService.deleteUser(userById);
+			return "redirect:/users";
+		}
+		
+		System.out.println("id is null, try again.");
+		return "redirect:/users";
+	}
+	
+
 
 }
