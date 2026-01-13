@@ -44,4 +44,8 @@ public class InternshipsService {
 		
 	}
 
+	public InternshipsEntity getInternshipWithTechnologies(Integer id) {
+		return internshipsRepository.findByIdWithTechnologies(id);
+	}
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.entity.InternshipsEntity;
 import com.service.InternshipsService;
+import com.service.TechnologiesService;
 
 @Controller
 public class InternshipsController {
@@ -23,10 +24,14 @@ public class InternshipsController {
 	@Autowired
 	InternshipsService internshipsService;
 	
+	@Autowired
+	TechnologiesService technologiesService;
+	
 	@GetMapping("/internships")
 	public String getInternshipsPage(Model model) {
 		List<InternshipsEntity> allInternships = internshipsService.getAllInternships();
 		model.addAttribute("internshipsList",allInternships);
+		model.addAttribute("technologiesList", technologiesService.getAllTechnologies());
 		return "internships";
 	}
 	
@@ -57,7 +62,8 @@ public class InternshipsController {
 	public String viewInternship(@RequestParam Integer id, RedirectAttributes ra) {
 		if(id != null) {
 			InternshipsEntity internshipById = internshipsService.findInternshipById(id);
-			ra.addFlashAttribute("internship", internshipById);
+			InternshipsEntity internshipWithTechnologies = internshipsService.getInternshipWithTechnologies(id);
+			ra.addFlashAttribute("internship", internshipWithTechnologies);
 			ra.addFlashAttribute("viewMode", true);
 			return "redirect:/internships";
 		}
@@ -69,7 +75,8 @@ public class InternshipsController {
 	public String editInternshipModal(@RequestParam Integer id, RedirectAttributes ra) {
 		if(id != null) {
 			InternshipsEntity internshipById = internshipsService.findInternshipById(id);
-			ra.addFlashAttribute("internship", internshipById);
+			InternshipsEntity internshipWithTechnologies = internshipsService.getInternshipWithTechnologies(id);
+			ra.addFlashAttribute("internship", internshipWithTechnologies);
 			ra.addFlashAttribute("editMode",true);
 			return "redirect:/internships";
 		}

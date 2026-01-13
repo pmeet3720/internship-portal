@@ -19,16 +19,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cloudinary.Cloudinary;
 import com.entity.UsersEntity;
 import com.enums.Roles;
+import com.service.InternshipsService;
 import com.service.MailService;
 import com.service.OtpService;
 import com.service.UsersService;
 
 @Controller
 public class UsersController {
-	
-	private final Cloudinary cloudinary;
-
-	private final MailService mailService;
 
 	@Autowired
 	UsersService usersService;
@@ -38,14 +35,13 @@ public class UsersController {
 
 	@Autowired
 	OtpService otpService;
-
-	UsersController(MailService mailService, Cloudinary cloudinary) {
-		this.mailService = mailService;
-		this.cloudinary = cloudinary;
-	}
+	
+	@Autowired
+	InternshipsService internshipService;
 	
 	@GetMapping("/userhomepage")
-	public String userHomePage() {
+	public String userHomePage(Model model) {
+		model.addAttribute("listInternships",internshipService.getAllInternships());
 		return "userhomepage";
 	}
 	
@@ -68,7 +64,7 @@ public class UsersController {
 
 	@PostMapping("/register/new")
 	public String registerUser(@ModelAttribute("user") @Validated UsersEntity user, BindingResult result, Model model,
-			MultipartFile imageFile) {
+			MultipartFile imageFile, RedirectAttributes ra) {
 		if (result.hasErrors()) {
 
 			return "register";
@@ -86,7 +82,7 @@ public class UsersController {
 		UsersEntity savedUser = usersService.addNewUser(user, imageFile);
 
 		if (savedUser != null) {
-			model.addAttribute("user", savedUser);
+			ra.addFlashAttribute("user", savedUser);
 		}
 
 		if (savedUser.getRoles() == Roles.INTERN) {

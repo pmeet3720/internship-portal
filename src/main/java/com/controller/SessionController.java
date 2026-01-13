@@ -65,7 +65,7 @@ public class SessionController {
 
 	@PostMapping("authenticate")
 	public String authenticate(@ModelAttribute("login") @Validated LoginDTO loginCred, BindingResult result,
-			Model model) {
+			RedirectAttributes ra, Model model) {
 
 		if (result.hasErrors()) {
 			return "login";
@@ -83,7 +83,7 @@ public class SessionController {
 
 		if (user.getEmail().equals(loginCred.getEmail())
 				&& passwordEncoder.matches(loginCred.getPassword(), user.getPassword())) {
-			model.addAttribute("user", user);
+			ra.addFlashAttribute("user", user);
 			if (user.getRoles() == Roles.INTERN) {
 				return "redirect:/userhomepage";
 			} else {

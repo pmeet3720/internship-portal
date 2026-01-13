@@ -9,9 +9,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user_detail_entity")
+@Setter
+@Getter
 public class UserDetailEntity {
 	
 	@Id
@@ -29,8 +33,8 @@ public class UserDetailEntity {
 	private String courseInfo;
 	
 	@NotBlank(message = "Enter your semester")
-	@Column(nullable = false)
-	private Integer semester;
+	@Column(nullable = false, length=2)
+	private String semester;
 	
 
 }

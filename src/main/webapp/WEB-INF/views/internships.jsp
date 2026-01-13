@@ -261,6 +261,26 @@
 
 						</div>
 
+						<!-- Technologies -->
+						<div class="mb-3">
+							<label class="form-label fw-semibold"> Technologies
+								Required </label>
+
+							<div class="border rounded p-3"
+								style="max-height: 180px; overflow-y: auto;">
+								<c:forEach items="${technologiesList}" var="tech">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox"
+											name="technologies" value="${tech.technologyId}"
+											id="tech_${tech.technologyId}"> <label
+											class="form-check-label" for="tech_${tech.technologyId}">
+											${tech.technologyName} </label>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+
+
 						<!-- Submit -->
 						<div class="d-grid mt-3">
 							<button type="submit" class="btn myBtn-light">
@@ -380,6 +400,15 @@
 						</div>
 
 					</div>
+
+					<hr>
+					<strong>Technologies:</strong>
+					<ul>
+						<c:forEach items="${internship.technologies}" var="tech">
+							<li>${tech.technologyName}</li>
+						</c:forEach>
+					</ul>
+
 
 					<!-- Footer -->
 					<div class="modal-footer">
@@ -509,6 +538,28 @@
 										class="form-control" value="${internship.stipendAmount}">
 								</div>
 							</div>
+
+							<!-- Technologies -->
+							<div class="mb-3">
+								<label class="form-label fw-semibold"> Technologies
+									Required * </label>
+
+								<div class="border rounded p-3"
+									style="max-height: 180px; overflow-y: auto;">
+									<c:forEach items="${technologiesList}" var="tech">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"
+												name="technologies" value="${tech.technologyId}"
+												id="edit_tech_${tech.technologyId}"
+												<c:if test="${internship.technologies.contains(tech)}">checked</c:if>>
+											<label class="form-check-label"
+												for="edit_tech_${tech.technologyId}">
+												${tech.technologyName} </label>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+
 
 							<!-- Submit -->
 							<div class="d-grid mt-3">

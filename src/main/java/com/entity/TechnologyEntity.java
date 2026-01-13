@@ -1,20 +1,23 @@
 package com.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name="technologies")
-@Setter
-@Getter
+@Data
 public class TechnologyEntity {
 	
 	@Id
@@ -36,6 +39,7 @@ public class TechnologyEntity {
 	@Column(nullable = false)
 	private Boolean active;
 	
-	
+	@ManyToMany(mappedBy = "technologies")
+	private List<InternshipsEntity> internships;
 
 }
